@@ -1,6 +1,13 @@
 import PyPDF2
 
-pdf = "sample_pdf"
+pdf = input("Enter the name of the PDF")
+
+if pdf == "":
+    
+    print("If you do not have a PDF now, we provide you a sample pdf.")
+    print("Type sample_pdf to use the sample pdf") 
+    pdf = input() 
+
 pdf = pdf + ".pdf"
 
 a = PyPDF2.PdfFileReader(pdf)
@@ -61,7 +68,7 @@ def details_of_the_pdf():
 
 # function to rotate a page         
 
-def roatate_pdf_single_page():
+def roatate_pdf_single_page(page):
     page = a.getPage(0)
     page.rotateClockwise(90)
     writer = PyPDF2.PdfFileWriter()
@@ -79,33 +86,48 @@ def roatate_pdf_single_page():
 
     print("The page has been rotated") 
 
-# function to rotate multiple pages         
+total_pages()
+is_encrypted()
 
-def roatate_pdf_multiple_pages(start_page, end_page):
-    inp = input("Enter the name of the file where you want to store the pdf ")
-    inp = inp + ".pdf"
+while(True):
 
-    print("Rotating all the pages....")
-    output = open(inp, 'ab+')
+    print("what more you like to do with the pdf?")
+    print("1. See more details of the PDF 2. Extract data from a single page 3. Extract data from multiple pages 4. Rotate a page. 5. Exit the program")
+    print("Enter your choice")
 
-    for i in range(start_page, end_page):
-        page = a.getPage(i)
-        page.rotateClockwise(90)
-        writer = PyPDF2.PdfFileWriter()
-        writer.addPage(page)
+    choiceEntry = int(input())
 
-        writer.write(output)
-    output.close()
+    if(choiceEntry == 1):
+        details_of_the_pdf()
 
-    print("All the pages are rotated sucessfully")
+    elif(choiceEntry == 2):
+        print("Enter the page number from which you want to extract the data")
+        print("If the PDF contains only a single page type 1")
 
+        page = input()
 
-roatate_pdf_multiple_pages(16, 28)     
-              
+        ext_page_data(page)
 
-# ext_page_data_of_many_pages(16,18)           
-# print(a.numPages)
-# print(a.getPage(24).extractText())
-# print(a.getPageNumber('Constructors'))
-# print(a.isEncrypted)
-# print(a.getNamedDestinations)
+    elif(choiceEntry == 3):
+
+        print("Enter the range in which you want to extract the data")
+
+        startRange = input("Enter the starting range")
+        endRange = input("Enter the ending range")
+        ext_page_data_of_many_pages(startRange, endRange)
+
+    elif(choiceEntry == 4):
+
+        print("Enter the page which you want to rotate")
+        print("If the PDF contains only a single page type 1")
+
+        pageRotate = input()
+        roatate_pdf_single_page(pageRotate + 1) 
+
+    elif(choiceEntry == 5):
+        print("Thanks for using my application....")
+        exit()
+
+    else:
+        print("Please enter a correct choice")                   
+    
